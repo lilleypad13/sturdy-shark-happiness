@@ -49,7 +49,7 @@ public class AGrid : MonoBehaviour
     {
         grid = new Node[gridSizeX, gridSizeY]; // Creates a 2D grid that gives the total number of nodes
         // This point represents the bottom left corner of the grid
-        Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
+        Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
 
         for (int x = 0; x < gridSizeX; x++)
         {
@@ -58,15 +58,17 @@ public class AGrid : MonoBehaviour
                 // Determines the actual position of the node
                 Vector3 worldPoint = worldBottomLeft +
                     Vector3.right * (x * nodeDiamater + nodeRadius) + 
-                    Vector3.forward * (y * nodeDiamater + nodeRadius);
+                    Vector3.up * (y * nodeDiamater + nodeRadius);
 
                 // Determine if node is traversable
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+                Debug.Log("The unwalkable mask is: " + LayerMask.LayerToName(1));
+                Debug.Log("Walkable is: " + walkable);
 
                 int movementPenalty = 0;
 
                 // Raycast
-                Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
+                Ray ray = new Ray(worldPoint + Vector3.forward * 50, Vector3.back);
                 RaycastHit hit;
                 if(Physics.Raycast(ray, out hit, 100, walkableMask))
                 {
@@ -201,21 +203,21 @@ public class AGrid : MonoBehaviour
         return grid[x, y];
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
 
-    //    if (grid != null && displayGridGizmos == true)
-    //    {
-    //        foreach (Node n in grid)
-    //        {
-    //            Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty));
+        if (grid != null && displayGridGizmos == true)
+        {
+            foreach (Node n in grid)
+            {
+                Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty));
 
-    //            Gizmos.color = (n.walkable) ? Gizmos.color : Color.red;
-    //            Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeDiamater);
-    //        }
-    //    }
-    //}
+                Gizmos.color = (n.walkable) ? Gizmos.color : Color.red;
+                Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeDiamater);
+            }
+        }
+    }
 
     [System.Serializable]
     public class TerrainType
