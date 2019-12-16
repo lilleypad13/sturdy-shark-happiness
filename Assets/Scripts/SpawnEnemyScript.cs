@@ -46,8 +46,6 @@ public class SpawnEnemyScript : MonoBehaviour {
                 CancelInvoke();
             }
         }
-        Debug.Log("Time between spawns " + timeBetweenSpawnAttempts);
-        
     }
 
     //void SpawnEnemy()

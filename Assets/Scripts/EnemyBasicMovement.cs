@@ -13,10 +13,7 @@ public class EnemyBasicMovement : MonoBehaviour {
 
     private Transform myTransform;
     private Transform target;
-    //private SpriteRenderer sr;
-    //private float distanceToPlayer;
-    //public bool canSeePlayer = true;
-    public Vector3 dir;
+    public Vector3 direction;
 
     void Awake()
     {
@@ -60,16 +57,16 @@ public class EnemyBasicMovement : MonoBehaviour {
 
         if (PlayerController.canBeSeen)
         {
-            dir = target.position - myTransform.position;
+            direction = target.position - myTransform.position;
             //Debug.Log(gameObject.name + " can see player.");
         }
 
 
         //dir.z = 0.0f; // Only needed if objects don't share 'z' value
-        if (dir != Vector3.zero)
+        if (direction != Vector3.zero)
         {
             myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
-                Quaternion.FromToRotation(Vector3.right, dir),
+                Quaternion.FromToRotation(Vector3.right, direction),
                 rotationSpeed * Time.deltaTime);
         }
 
@@ -83,7 +80,7 @@ public class EnemyBasicMovement : MonoBehaviour {
     void AggressiveMovement()
     {
         rotationSpeed += Time.deltaTime * rotationScaling;
-        dir = target.position - myTransform.position;
+        direction = target.position - myTransform.position;
         //Debug.Log(gameObject.name + " can see player.");
         myTransform.position += myTransform.right * moveSpeed * Time.deltaTime;
     }
@@ -95,17 +92,17 @@ public class EnemyBasicMovement : MonoBehaviour {
         //dir = target.position - myTransform.position; // Use this but adapt to waypoint instead of target
         if (waypointGiven != null)
         {
-            dir = waypointGiven.position - myTransform.position;
+            direction = waypointGiven.position - myTransform.position;
         }
         myTransform.position += myTransform.right * moveSpeed * Time.deltaTime;
     }
 
     void RotateEnemy()
     {
-        if (dir != Vector3.zero)
+        if (direction != Vector3.zero)
         {
             myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
-                Quaternion.FromToRotation(Vector3.right, dir),
+                Quaternion.FromToRotation(Vector3.right, direction),
                 rotationSpeed * Time.deltaTime);
         }
     }
