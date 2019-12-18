@@ -7,22 +7,15 @@ using System;
 public class PathfindingHeap : MonoBehaviour
 {
     PathRequestManager requestManager;
-    //public Transform seeker, target;
     AGrid aGrid;
+    // FOR DEBUGGING ONLY
+    private int pathID = 0;
 
     private void Awake()
     {
         requestManager = GetComponent<PathRequestManager>();
         aGrid = GetComponent<AGrid>();
     }
-
-    //private void Update()
-    //{
-    //    if (Input.GetButtonDown("Jump"))
-    //    {
-    //        FindPath(seeker.position, target.position);
-    //    }
-    //}
 
     public void StartFindPath(Vector3 startPosition, Vector3 targetPosition)
     {
@@ -57,7 +50,6 @@ public class PathfindingHeap : MonoBehaviour
                     sw.Stop();
                     //print("Path found: " + sw.ElapsedMilliseconds + " ms");
                     pathSuccess = true;
-                    //RetracePath(startNode, targetNode);
                     break;
                 }
 
@@ -91,6 +83,7 @@ public class PathfindingHeap : MonoBehaviour
             waypoints = RetracePath(startNode, targetNode);
         }
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
+        pathID++; // FOR DEBUGGING ONLY
     }
 
     /*
@@ -107,8 +100,11 @@ public class PathfindingHeap : MonoBehaviour
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
+        UnityEngine.Debug.Log("BEFORE Simplify: The waypoint count for pathID " + pathID + " is: " + path.Count);
 
         Vector3[] waypoints = SimplifyPath(path);
+
+        UnityEngine.Debug.Log("AFTER Simplify: The waypoint count for pathID " + pathID + " is: " + waypoints.Length);
         Array.Reverse(waypoints);
         return waypoints;
     }
@@ -118,14 +114,19 @@ public class PathfindingHeap : MonoBehaviour
         List<Vector3> waypoints = new List<Vector3>();
         Vector2 directionOld = Vector2.zero;
 
-        for (int i = 1; i < path.Count; i++)
+        if (path.Count == 1) // For special case where target is only a single node away
+            waypoints.Add(path[0].worldPosition);
+        else
         {
-            Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
-            if(directionNew != directionOld)
+            for (int i = 1; i < path.Count; i++)
             {
-                waypoints.Add(path[i].worldPosition);
+                Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
+                if (directionNew != directionOld)
+                {
+                    waypoints.Add(path[i].worldPosition);
+                }
+                directionOld = directionNew;
             }
-            directionOld = directionNew;
         }
         return waypoints.ToArray();
     }

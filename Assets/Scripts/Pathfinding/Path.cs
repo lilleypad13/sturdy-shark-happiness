@@ -15,10 +15,12 @@ public class Path
         turnBoundaries = new Line[lookPoints.Length];
         finishLineIndex = turnBoundaries.Length - 1;
 
-        Vector2 previousPoint = V3ToV2(startPosition);
+        //Vector2 previousPoint = V3ToV2(startPosition);
+        Vector2 previousPoint = startPosition;
         for (int i = 0; i < lookPoints.Length; i++)
         {
-            Vector2 currentPoint = V3ToV2(lookPoints[i]);
+            //Vector2 currentPoint = V3ToV2(lookPoints[i]);
+            Vector2 currentPoint = lookPoints[i];
             Vector2 directionToCurrentPoint = (currentPoint - previousPoint).normalized;
             Vector2 turnBoundaryPoint = (i == finishLineIndex) ? currentPoint : currentPoint - directionToCurrentPoint * turnDistance;
             turnBoundaries[i] = new Line(turnBoundaryPoint, previousPoint - directionToCurrentPoint * turnDistance);
@@ -50,7 +52,7 @@ public class Path
         Gizmos.color = Color.black;
         foreach (Vector3 p in lookPoints)
         {
-            Gizmos.DrawCube(p + Vector3.up, Vector3.one);
+            Gizmos.DrawCube(p + Vector3.forward, Vector3.one);
         }
 
         Gizmos.color = Color.white;

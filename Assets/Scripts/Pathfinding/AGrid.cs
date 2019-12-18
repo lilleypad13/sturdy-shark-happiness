@@ -62,8 +62,6 @@ public class AGrid : MonoBehaviour
 
                 // Determine if node is traversable
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                Debug.Log("The unwalkable mask is: " + LayerMask.LayerToName(1));
-                Debug.Log("Walkable is: " + walkable);
 
                 int movementPenalty = 0;
 
@@ -190,7 +188,8 @@ public class AGrid : MonoBehaviour
     public Node NodeFromWorldPoint(Vector3 worldPosition)
     {
         float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-        float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
+        //float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
+        float percentY = (worldPosition.y + gridWorldSize.y / 2) / gridWorldSize.y;
 
         // Clamped to prevent values from going out of bounds (will never be less than 0 or greater than 1)
         percentX = Mathf.Clamp01(percentX);
