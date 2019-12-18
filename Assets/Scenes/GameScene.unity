@@ -827,6 +827,7 @@ GameObject:
   - component: {fileID: 464382324}
   - component: {fileID: 464382323}
   - component: {fileID: 464382322}
+  - component: {fileID: 464382325}
   m_Layer: 0
   m_Name: AStarLogic
   m_TagString: Untagged
@@ -858,18 +859,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb44c0ba0b4a5b419d38a9bbf2526b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayGridGizmos: 1
+  displayGridGizmos: 0
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 4096
-  gridWorldSize: {x: 23, y: 22}
+  gridWorldSize: {x: 50, y: 40}
   nodeRadius: 0.25
   walkableRegions:
   - terrainMask:
       serializedVersion: 2
       m_Bits: 8192
     terrainPenalty: 3
-  obstacleProximityPenalty: 10
+  obstacleProximityPenalty: 0
 --- !u!4 &464382324
 Transform:
   m_ObjectHideFlags: 0
@@ -884,6 +885,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &464382325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464382321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b0777a76e267d46806a7b9a1f5b18c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &473699979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,7 +1061,7 @@ Transform:
   - {fileID: 1493926664}
   - {fileID: 1573452263}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &539922723
 GameObject:
@@ -1145,7 +1158,7 @@ RectTransform:
   - {fileID: 2081856694}
   - {fileID: 450953600}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1202,7 +1215,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 72df14b98a6984d45a2fa1daf4d6d133, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1238,13 +1251,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548874988}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -7.06, y: 6.73, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
+  m_LocalScale: {x: 6, y: 6, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!1001 &595317752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1282,7 +1295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4507277448611208, guid: 265caf40189cc2447923fce77bd8e16b, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114554196089212262, guid: 265caf40189cc2447923fce77bd8e16b,
         type: 3}
@@ -1291,6 +1304,12 @@ PrefabInstance:
       objectReference: {fileID: 1853759297}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 265caf40189cc2447923fce77bd8e16b, type: 3}
+--- !u!1 &595317753 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1963959294235556, guid: 265caf40189cc2447923fce77bd8e16b,
+    type: 3}
+  m_PrefabInstance: {fileID: 595317752}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &687884861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,7 +1444,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &809657534
 GameObject:
@@ -1627,7 +1646,7 @@ MonoBehaviour:
   - {fileID: 1343419912}
   - {fileID: 140103961}
   - {fileID: 65684521}
-  timeBetweenSpawnAttempts: 3
+  timeBetweenSpawnAttempts: 2
   minTimeBetweenSpawns: 0.5
   timeToIncreaseSpawnRate: 15
   amountToIncreaseSpawnRate: 0.25
@@ -2019,7 +2038,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1185298239
 GameObject:
@@ -2141,7 +2160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343419911}
   m_LocalRotation: {x: -0, y: -0, z: 0.92387956, w: 0.38268343}
-  m_LocalPosition: {x: 1.07, y: -10.97, z: 0}
+  m_LocalPosition: {x: -4.88, y: -10.97, z: 0}
   m_LocalScale: {x: 1.0000005, y: 1.0000005, z: 1}
   m_Children: []
   m_Father: {fileID: 2136378428}
@@ -11720,6 +11739,7 @@ MonoBehaviour:
   totalLevels: 0
   levelText: {fileID: 0}
   loseScreen: {fileID: 1395371546}
+  player: {fileID: 595317753}
 --- !u!1 &1855931086
 GameObject:
   m_ObjectHideFlags: 0
