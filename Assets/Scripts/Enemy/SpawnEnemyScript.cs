@@ -7,6 +7,8 @@ public class SpawnEnemyScript : MonoBehaviour {
     public GameObject enemyObject;
     public Transform[] spawns;
 
+    private int enemyCounter = 0;
+
     //[Range(0.0f, 1.0f)]
     //public float spawnRate = 0.5f; // Probability an enemy will spawn
     //public float spawnIncrease = 0f;
@@ -81,7 +83,12 @@ public class SpawnEnemyScript : MonoBehaviour {
         Transform selectedSpawn = freeSpawnPoints[index];
         //Transform pos = selectedSpawn.GetComponent<Transform>();  // Finds the transform value of the selected game object in the array, and sets that value equal to pos
         GameObject newEnemy = Instantiate(enemyObject, selectedSpawn.position, selectedSpawn.rotation);  // Creates an object at the selected position
-        newEnemy.GetComponent<EnemyBasicMovement>().waypointGiven = selectedSpawn.gameObject.GetComponent<SpawnPointScript>().waypointLocation;
+        enemyCounter++;
+        newEnemy.name = "Enemy" + enemyCounter + "From" + selectedSpawn.gameObject.name;
+        EnemyBasicMovement enemy = newEnemy.GetComponent<EnemyBasicMovement>();
+        enemy.target = GameManager.Instance.player.transform;
+        enemy.enabled = true;
+        //newEnemy.GetComponent<EnemyBasicMovement>().waypointGiven = selectedSpawn.gameObject.GetComponent<SpawnPointScript>().waypointLocation;
         //gearBaby.GetComponent<GearTwoPartMesh>().numberOfTeeth = numberOfTeeth;
         //Debug.Log("Object placed at: " + selectedSpawn.name);
         //bool occupiedCheck = selectedSpawn.GetComponent<SpawnPointPickupRock>().isOccupied;  // Sets occupiedCheck to whatever value isOccupied is on the selected game object
