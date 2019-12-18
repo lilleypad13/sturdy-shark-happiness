@@ -36,13 +36,13 @@ public class PlayerHitboxScript : MonoBehaviour {
         else
         {
             Debug.Log("You have died of hunger.");
-            gameManager.GetComponent<GameManagerScript>().LoseGame();
+            gameManager.GetComponent<GameManager>().LoseGame();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (GameManagerScript.gameHasEnded == false)
+        if (GameManager.gameHasEnded == false)
         {
             HitEnemy(coll);
             HitEnemyWeakPoint(coll);
@@ -54,7 +54,7 @@ public class PlayerHitboxScript : MonoBehaviour {
         if (enemy.CompareTag("Enemy"))
         {
             Debug.Log("You have died by enemy.");
-            gameManager.GetComponent<GameManagerScript>().LoseGame();
+            gameManager.GetComponent<GameManager>().LoseGame();
         }
     }
 
