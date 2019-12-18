@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManagerScript : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 
     public static bool gameHasEnded;
 
@@ -13,6 +13,25 @@ public class GameManagerScript : MonoBehaviour {
     public int totalLevels; //Only necessary for CompleteLevel Script to determine if there are no more leves, and it should just restart the game
     public Text levelText;
     public GameObject loseScreen;
+
+    public GameObject player;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+                new GameManager();
+            return instance;
+        }
+    }
+    private static GameManager instance;
+    private GameManager()
+    {
+        if (instance != null)
+            return;
+        instance = this;
+    }
 
 
     private void Start()
