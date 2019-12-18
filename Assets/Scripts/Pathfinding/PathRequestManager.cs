@@ -37,6 +37,7 @@ public class PathRequestManager : MonoBehaviour
         }
     }
 
+    // This is where the callback method is actually used (OnPathFound at this time)
     public void FinishedProcessingPath(Vector3[] path, bool success)
     {
         currentPathRequest.callback(path, success);

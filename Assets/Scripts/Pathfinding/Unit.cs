@@ -25,15 +25,6 @@ public class Unit : MonoBehaviour
         StartCoroutine(updatePathRoutine);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Space pressed");
-            StopCoroutine(followRoutine);
-        }
-    }
-
     /*
      * Gives a path to the unit only if a path was successfully found
      */
