@@ -61,16 +61,27 @@ public class AGrid : MonoBehaviour
                     Vector3.up * (y * nodeDiamater + nodeRadius);
 
                 // Determine if node is traversable
-                bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+                //bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+                bool walkable = true;
 
                 int movementPenalty = 0;
 
                 // Raycast
                 Ray ray = new Ray(worldPoint + Vector3.forward * 50, Vector3.back);
                 RaycastHit hit;
-                if(Physics.Raycast(ray, out hit, 100, walkableMask))
+
+                //if(Physics.Raycast(ray, out hit, 100, walkableMask))
+                //{
+                //    walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                //}
+                if (Physics.Raycast(ray, out hit, 100))
                 {
-                    walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                    if (hit.collider.gameObject.layer == 12)
+                        walkable = false;
+                    else
+                    {
+                        walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                    }
                 }
 
                 if (!walkable)
