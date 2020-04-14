@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    #region Variables
     // Public variables
     public float startingSpeed = 1.0f;
     public float maxSpeed = 2.0f;
@@ -21,16 +22,18 @@ public class PlayerController : MonoBehaviour {
     private float moveVertical;
     private float moveHorizontal;
     private float inputDelay;
-    private Rigidbody2D rb2d;
-    private Vector2 dir;
+    private Rigidbody rb;
+    private Vector3 direction;
 
     private float initialLightSpotAngle;
+    #endregion
+
 
     private void Start()
     {
-        if (GetComponent<Rigidbody2D>())
+        if (GetComponent<Rigidbody>())
         {
-            rb2d = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody>();
         }
         else
             Debug.LogError("The character needs a rigidbody.");
@@ -40,7 +43,7 @@ public class PlayerController : MonoBehaviour {
         moveVertical = 0f;
         moveHorizontal = 0f;
         //inputDelay = 0f; // Can edit this to get a different feel for the character if necessary
-        dir = Vector2.zero;
+        direction = Vector3.zero;
         initialLightSpotAngle = playerLight.spotAngle;
         moveSpeed = startingSpeed;
     }
@@ -70,39 +73,36 @@ public class PlayerController : MonoBehaviour {
 
     void Run()
     {
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
         if (moveSpeed > startingSpeed)
         {
             moveSpeed -= acceleration + Time.deltaTime;
-            rb2d.velocity = movement * moveSpeed * Time.deltaTime; // Just multiplies in maxSpeed variable to alter speed
+            rb.velocity = movement * moveSpeed * Time.deltaTime; // Just multiplies in maxSpeed variable to alter speed
         }
         else
         {
-            rb2d.velocity = movement * startingSpeed * Time.deltaTime;
+            rb.velocity = movement * startingSpeed * Time.deltaTime;
             canBeSeen = false;
             //Debug.Log("player is at minimum speed");
         }
-        //rb2d.velocity = movement * moveSpeed * Time.deltaTime;
-        //Debug.Log("Player is not running.");
-        //canBeSeen = false;
+        
         playerLight.spotAngle = initialLightSpotAngle;
 
     }
 
     void RunFast()
     {
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
         if (moveSpeed < maxSpeed)
         {
             moveSpeed += acceleration + Time.deltaTime;
-            rb2d.velocity = movement * moveSpeed * Time.deltaTime; // Just multiplies in maxSpeed variable to alter speed
+            rb.velocity = movement * moveSpeed * Time.deltaTime; // Just multiplies in maxSpeed variable to alter speed
         }
         else
         {
-            rb2d.velocity = movement * maxSpeed * Time.deltaTime;
+            rb.velocity = movement * maxSpeed * Time.deltaTime;
             //Debug.Log("player is at maximum speed");
         }
-        //rb2d.velocity += movement * moveSpeed * maxSpeed * Time.deltaTime;
         //Debug.Log("Player is running.");
         canBeSeen = true;
         playerLight.spotAngle = surfacedLightSpotAngle;
@@ -111,11 +111,11 @@ public class PlayerController : MonoBehaviour {
     // Need to fix so it ONLY rotates around the z-axis - Fixed
     void RotatePlayer()
     {
-        dir = new Vector2(moveHorizontal, moveVertical);
-        if (dir != Vector2.zero)
+        direction = new Vector3(moveHorizontal, moveVertical);
+        if (direction != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.FromToRotation(Vector3.right, dir),
+                Quaternion.FromToRotation(Vector3.up, direction),
                 rotationSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, transform.rotation.eulerAngles.z)); // Restricts Slerp rotation to z-axis
         }
