@@ -49,10 +49,11 @@ public class Path
 
     public void DrawWithGizmos()
     {
+        float waypointLocatorCubeDimension = 0.5f;
         Gizmos.color = Color.black;
         foreach (Vector3 p in lookPoints)
         {
-            Gizmos.DrawCube(p + Vector3.forward, Vector3.one);
+            Gizmos.DrawCube(p + Vector3.forward, Vector3.one * waypointLocatorCubeDimension);
         }
 
         Gizmos.color = Color.white;
