@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
     public float maxSpeed = 2.0f;
     public float rotationSpeed = 2.0f;
     public float acceleration = 2.0f;
+    public float rotationTime = 1.0f;
+    public float interpolant = 0.5f;
 
     public Light playerLight;
     public float surfacedLightSpotAngle = 30f;
@@ -54,7 +56,6 @@ public class PlayerController : MonoBehaviour {
     {
         GetInput();
         RotatePlayer();
-        // Issue with keyboard that you can only register 2 key presses at once, can't hold button while moving diagonally
         if (Input.GetButton("Jump")) // While button is held down, player moves faster
         {
             RunFast();
@@ -65,12 +66,21 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /*
+     * Receives input from player and generates a normalized directional vector from it
+     */
     void GetInput()
     {
         moveVertical = Input.GetAxis("Vertical");
         moveHorizontal = Input.GetAxis("Horizontal");
+
+        direction = new Vector3(moveHorizontal, moveVertical, 0.0f);
+        direction = Vector3.Normalize(direction);
     }
 
+    /*
+     * Default movement option
+     */
     void Run()
     {
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
@@ -90,6 +100,9 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    /*
+     * Fast movement option
+     */
     void RunFast()
     {
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
@@ -111,13 +124,20 @@ public class PlayerController : MonoBehaviour {
     // Need to fix so it ONLY rotates around the z-axis - Fixed
     void RotatePlayer()
     {
-        direction = new Vector3(moveHorizontal, moveVertical);
+        //direction = new Vector3(moveHorizontal, moveVertical, 0.0f);
         if (direction != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.FromToRotation(Vector3.up, direction),
-                rotationSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, transform.rotation.eulerAngles.z)); // Restricts Slerp rotation to z-axis
+            //transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+
+            //transform.up = Vector3.Lerp(transform.up, direction, rotationTime * Time.deltaTime);
+            transform.up = Vector3.Lerp(transform.up, direction, interpolant);
+
+            //transform.rotation = Quaternion.Slerp(transform.rotation,
+            //    Quaternion.FromToRotation(Vector3.up, direction),
+            //    rotationSpeed * Time.deltaTime);
+            //transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, transform.rotation.eulerAngles.z)); // Restricts Slerp rotation to z-axis
         }
+
+
     }
 }
